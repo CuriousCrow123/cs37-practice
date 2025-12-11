@@ -1,0 +1,225 @@
+{
+  "main": {
+    "id": "6857929fb9fe699b",
+    "type": "split",
+    "children": [
+      {
+        "id": "f0847fd3b9120c97",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fd585bccdaa4aaa4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "database/MEMORY_VISUALIZATION_PLAN.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "MEMORY_VISUALIZATION_PLAN"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "dcf5181baa998afa",
+    "type": "split",
+    "children": [
+      {
+        "id": "5847081244784e64",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ad553923360bbec6",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "fed88fe380344a31",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "960562e1edfdebe3",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "04d296241b6e8fb5",
+    "type": "split",
+    "children": [
+      {
+        "id": "cd02439bd28d811e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5310dbb64d7dc846",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "database/MEMORY_VISUALIZATION_PLAN.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for MEMORY_VISUALIZATION_PLAN"
+            }
+          },
+          {
+            "id": "a637c80a55c71f64",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "database/MEMORY_VISUALIZATION_PLAN.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from MEMORY_VISUALIZATION_PLAN"
+            }
+          },
+          {
+            "id": "d9ee97be294c03ef",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "8f07ca433501b582",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "53f0e1b3158e0386",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "database/MEMORY_VISUALIZATION_PLAN.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of MEMORY_VISUALIZATION_PLAN"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "fd585bccdaa4aaa4",
+  "lastOpenFiles": [
+    "database/EXPLANATION_GUIDE.md",
+    "database/MEMORY_VISUALIZATION_PLAN.md",
+    "Concepts_Checklist.md",
+    "CS 37 - Final - F25 - Study Guide.pdf",
+    "database/batch_mem_explanations.py",
+    "database/batch_inh_explanations.py",
+    "database/batch_op_explanations.py",
+    "database/batch_ptr_explanations.py",
+    "database/batch_func_explanations.py",
+    "database/batch_cls_explanations.py",
+    "Atomic_Examples/08_Dynamic_Memory_Rule_of_3.md",
+    "database/batch_ctrl_explanations.py",
+    "database/batch_add_explanations.py",
+    "Explanation_Todo_List.md",
+    "database/add_explanation.py",
+    "Atomic_Examples/06_Operator_Overloading.md",
+    "Minimal_Examples_Part1_Control_Structures.md",
+    "Minimal_Examples_Part8_Dynamic_Memory.md",
+    "Minimal_Examples_Part7_Inheritance.md",
+    "Atomic_Examples/07_Inheritance_Polymorphism.md",
+    "Minimal_Examples_Part6_Operators.md",
+    "Atomic_Examples/01_Control_Structures_Operators.md",
+    "Minimal_Examples_Part2_Functions_Scope.md",
+    "Atomic_Examples/03_Pointers_Dereferencing.md",
+    "Minimal_Examples_Part5_Classes.md",
+    "Atomic_Examples/05_Classes_Constructors.md",
+    "Problem_Index_With_Concepts.md",
+    "Minimal_Examples_Part4_Arrays_Iteration.md",
+    "Atomic_Examples/04_Arrays_Iteration.md",
+    "Minimal_Examples_Part3_Pointers.md",
+    "Atomic_Examples/02_Functions_Scope_References.md",
+    "Set1_Control_Structures_Operators.md",
+    "Set2_Functions_Scope_References.md",
+    "Set8_Dynamic_Memory_Rule_of_3.md",
+    "Set7_Inheritance_Polymorphism.md",
+    "Set6_Operator_Overloading.md"
+  ]
+}
