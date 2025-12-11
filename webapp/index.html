@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS37 Practice Problems</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin-bottom: 30px;
+            border-radius: 12px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 16px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            background: #16213e;
+            color: #eee;
+            font-size: 1rem;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .filter-select {
+            padding: 12px 16px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            background: #16213e;
+            color: #eee;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .category-card {
+            background: #16213e;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .category-card.active {
+            border-color: #667eea;
+            background: #1a2744;
+        }
+
+        .category-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .category-card .count {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .problems-list {
+            display: none;
+        }
+
+        .problems-list.visible {
+            display: block;
+        }
+
+        .problem-item {
+            background: #16213e;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .problem-header {
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .problem-header:hover {
+            background: #1a2744;
+        }
+
+        .problem-id {
+            color: #667eea;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin-right: 12px;
+        }
+
+        .problem-concept {
+            flex: 1;
+        }
+
+        .problem-toggle {
+            color: #888;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .problem-item.expanded .problem-toggle {
+            transform: rotate(180deg);
+        }
+
+        .problem-content {
+            display: none;
+            padding: 0 20px 20px;
+            border-top: 1px solid #333;
+        }
+
+        .problem-item.expanded .problem-content {
+            display: block;
+        }
+
+        .code-block {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            border: 1px solid #333;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        .answer-section {
+            margin-top: 16px;
+        }
+
+        .reveal-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .reveal-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        .answer {
+            display: none;
+            margin-top: 12px;
+            padding: 16px;
+            background: #0f3d0f;
+            border-radius: 8px;
+            border: 1px solid #1a5c1a;
+        }
+
+        .answer.visible {
+            display: block;
+        }
+
+        .answer-label {
+            color: #4ade80;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .answer-value {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            color: #86efac;
+        }
+
+        .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .tag {
+            background: #333;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        /* Explanation styles */
+        .explanation-section {
+            margin-top: 16px;
+        }
+
+        .explanation-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: opacity 0.2s, transform 0.2s;
+            margin-left: 10px;
+        }
+
+        .explanation-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        .explanation {
+            display: none;
+            margin-top: 16px;
+            border-radius: 8px;
+            border: 1px solid #2d4a7c;
+            background: #0d1a2d;
+            overflow: hidden;
+        }
+
+        .explanation.visible {
+            display: block;
+        }
+
+        .explanation-header {
+            background: #1a2d4a;
+            padding: 12px 16px;
+            font-weight: bold;
+            color: #60a5fa;
+            border-bottom: 1px solid #2d4a7c;
+        }
+
+        .explanation-steps {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .explanation-step {
+            padding: 12px 16px;
+            border-bottom: 1px solid #1e3a5f;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px;
+            align-items: start;
+        }
+
+        .explanation-step:last-child {
+            border-bottom: none;
+        }
+
+        .explanation-step:hover {
+            background: #0f2440;
+        }
+
+        .step-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 70px;
+            gap: 4px;
+        }
+
+        .step-line {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: #f59e0b;
+            background: #422006;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .step-line.no-line {
+            background: #1f2937;
+            color: #6b7280;
+        }
+
+        .step-action {
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Action type colors */
+        .step-action.declare { background: #1e3a5f; color: #60a5fa; }
+        .step-action.initialize { background: #1e3a5f; color: #60a5fa; }
+        .step-action.assign { background: #3b0764; color: #c084fc; }
+        .step-action.evaluate { background: #4a044e; color: #e879f9; }
+        .step-action.call { background: #164e63; color: #22d3ee; }
+        .step-action.return { background: #134e4a; color: #2dd4bf; }
+        .step-action.output { background: #14532d; color: #4ade80; }
+        .step-action.construct { background: #1e3a8a; color: #93c5fd; }
+        .step-action.destruct { background: #7f1d1d; color: #fca5a5; }
+        .step-action.branch { background: #713f12; color: #fcd34d; }
+        .step-action.loop-start { background: #4c1d95; color: #a78bfa; }
+        .step-action.loop-check { background: #4c1d95; color: #a78bfa; }
+        .step-action.loop-end { background: #4c1d95; color: #a78bfa; }
+        .step-action.allocate { background: #065f46; color: #6ee7b7; }
+        .step-action.deallocate { background: #7f1d1d; color: #fca5a5; }
+        .step-action.dereference { background: #0c4a6e; color: #7dd3fc; }
+        .step-action.copy { background: #1e40af; color: #93c5fd; }
+
+        .step-body {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .step-description {
+            color: #e5e7eb;
+            line-height: 1.4;
+        }
+
+        .step-description code {
+            background: #1f2937;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9em;
+            color: #fbbf24;
+        }
+
+        .step-details {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .step-state {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            background: #1e293b;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #94a3b8;
+        }
+
+        .step-state .var-name {
+            color: #f472b6;
+        }
+
+        .step-state .var-value {
+            color: #4ade80;
+        }
+
+        .step-output {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            background: #14532d;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #86efac;
+        }
+
+        .step-output::before {
+            content: '→ ';
+            color: #4ade80;
+        }
+
+        .step-concepts {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .concept-tag {
+            font-size: 0.7rem;
+            background: #1e3a5f;
+            color: #60a5fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .key-insight {
+            background: #1a2d4a;
+            padding: 14px 16px;
+            border-top: 1px solid #2d4a7c;
+            color: #fbbf24;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .key-insight::before {
+            content: '💡 ';
+        }
+
+        .buttons-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            background: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .back-btn.visible {
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: #444;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* Syntax highlighting basic */
+        .keyword { color: #c678dd; }
+        .type { color: #e5c07b; }
+        .string { color: #98c379; }
+        .number { color: #d19a66; }
+        .comment { color: #5c6370; font-style: italic; }
+        .function { color: #61afef; }
+
+        /* Code line highlighting */
+        .code-line {
+            display: block;
+            padding: 0 4px;
+            margin: 0 -4px;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+
+        .code-line.highlighted {
+            background-color: rgba(251, 191, 36, 0.25);
+            box-shadow: inset 3px 0 0 #fbbf24;
+        }
+
+        /* Clickable explanation steps */
+        .explanation-step.clickable {
+            cursor: pointer;
+        }
+
+        .explanation-step.active {
+            background: #1a3a5c;
+            box-shadow: inset 3px 0 0 #60a5fa;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CS37 Practice Problems</h1>
+            <p>Master C++ concepts through code simulation</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="total-problems">0</div>
+                    <div class="stat-label">Problems</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="total-categories">0</div>
+                    <div class="stat-label">Categories</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="completed-count">0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="controls">
+            <input type="text" class="search-box" id="search" placeholder="Search problems...">
+            <select class="filter-select" id="category-filter">
+                <option value="">All Categories</option>
+            </select>
+        </div>
+
+        <button class="back-btn" id="back-btn">← Back to Categories</button>
+
+        <div class="categories" id="categories-grid"></div>
+
+        <div class="problems-list" id="problems-list"></div>
+    </div>
+
+    <script>
+        // Load database
+        let db = null;
+        let currentCategory = null;
+        let completed = new Set(JSON.parse(localStorage.getItem('cs37-completed') || '[]'));
+
+        async function loadDatabase() {
+            try {
+                const response = await fetch('problems.json');
+                db = await response.json();
+                initializeApp();
+            } catch (error) {
+                console.error('Failed to load database:', error);
+                document.getElementById('categories-grid').innerHTML =
+                    '<p class="no-results">Failed to load problems. Make sure problems.json is in the same folder.</p>';
+            }
+        }
+
+        function initializeApp() {
+            updateStats();
+            renderCategories();
+            populateCategoryFilter();
+            setupEventListeners();
+        }
+
+        function updateStats() {
+            document.getElementById('total-problems').textContent = db.problems.length;
+            document.getElementById('total-categories').textContent = db.categories.length;
+            document.getElementById('completed-count').textContent = completed.size;
+        }
+
+        function renderCategories() {
+            const grid = document.getElementById('categories-grid');
+            grid.innerHTML = '';
+
+            db.categories.sort((a, b) => a.order - b.order).forEach(category => {
+                const count = db.problems.filter(p => p.categoryId === category.id).length;
+                const completedInCategory = db.problems.filter(p =>
+                    p.categoryId === category.id && completed.has(p.id)
+                ).length;
+
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.innerHTML = `
+                    <h3>${category.title}</h3>
+                    <div class="count">${count} problems</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${(completedInCategory/count)*100}%"></div>
+                    </div>
+                `;
+                card.onclick = () => showCategory(category.id);
+                grid.appendChild(card);
+            });
+        }
+
+        function populateCategoryFilter() {
+            const select = document.getElementById('category-filter');
+            db.categories.sort((a, b) => a.order - b.order).forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.id;
+                option.textContent = category.title;
+                select.appendChild(option);
+            });
+        }
+
+        function showCategory(categoryId) {
+            currentCategory = categoryId;
+            document.getElementById('categories-grid').style.display = 'none';
+            document.getElementById('problems-list').classList.add('visible');
+            document.getElementById('back-btn').classList.add('visible');
+            document.getElementById('category-filter').value = categoryId;
+            renderProblems(categoryId);
+        }
+
+        function showAllCategories() {
+            currentCategory = null;
+            document.getElementById('categories-grid').style.display = 'grid';
+            document.getElementById('problems-list').classList.remove('visible');
+            document.getElementById('back-btn').classList.remove('visible');
+            document.getElementById('category-filter').value = '';
+            document.getElementById('search').value = '';
+        }
+
+        function renderProblems(categoryId = null, searchTerm = '') {
+            const list = document.getElementById('problems-list');
+            list.innerHTML = '';
+
+            let problems = db.problems;
+
+            if (categoryId) {
+                problems = problems.filter(p => p.categoryId === categoryId);
+            }
+
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                problems = problems.filter(p =>
+                    p.concept.toLowerCase().includes(term) ||
+                    p.code.toLowerCase().includes(term) ||
+                    p.tags.some(t => t.toLowerCase().includes(term))
+                );
+            }
+
+            if (problems.length === 0) {
+                list.innerHTML = '<p class="no-results">No problems found matching your criteria.</p>';
+                return;
+            }
+
+            problems.forEach(problem => {
+                const item = document.createElement('div');
+                item.className = 'problem-item' + (completed.has(problem.id) ? ' completed' : '');
+                const hasExplanation = problem.explanation && problem.explanation.steps;
+                item.innerHTML = `
+                    <div class="problem-header" onclick="toggleProblem('${problem.id}')">
+                        <span class="problem-id">${problem.id}</span>
+                        <span class="problem-concept">${escapeHtml(problem.concept)}</span>
+                        <span class="problem-toggle">▼</span>
+                    </div>
+                    <div class="problem-content">
+                        <div class="code-block" id="code-${problem.id}">
+                            <pre>${highlightCode(problem.code, problem.id)}</pre>
+                        </div>
+                        <div class="answer-section">
+                            <div class="buttons-row">
+                                <button class="reveal-btn" onclick="revealAnswer('${problem.id}')">
+                                    Show Output
+                                </button>
+                                ${hasExplanation ? `<button class="explanation-btn" onclick="toggleExplanation('${problem.id}')">
+                                    Show Explanation
+                                </button>` : ''}
+                            </div>
+                            <div class="answer" id="answer-${problem.id}">
+                                <div class="answer-label">Output:</div>
+                                <div class="answer-value">${escapeHtml(problem.output)}</div>
+                            </div>
+                        </div>
+                        ${hasExplanation ? `
+                        <div class="explanation" id="explanation-${problem.id}">
+                            <div class="explanation-header">Step-by-Step Execution (click a step to highlight code)</div>
+                            <ul class="explanation-steps">
+                                ${renderExplanationSteps(problem.explanation.steps, problem.id)}
+                            </ul>
+                            ${problem.explanation.keyInsight ? `<div class="key-insight">${escapeHtml(problem.explanation.keyInsight)}</div>` : ''}
+                        </div>
+                        ` : ''}
+                        <div class="tags">
+                            ${problem.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function toggleProblem(id) {
+            const items = document.querySelectorAll('.problem-item');
+            items.forEach(item => {
+                const itemId = item.querySelector('.problem-id').textContent;
+                if (itemId === id) {
+                    item.classList.toggle('expanded');
+                }
+            });
+        }
+
+        function revealAnswer(id) {
+            const answer = document.getElementById(`answer-${id}`);
+            answer.classList.add('visible');
+
+            // Mark as completed
+            completed.add(id);
+            localStorage.setItem('cs37-completed', JSON.stringify([...completed]));
+            updateStats();
+
+            // Update progress bars
+            renderCategories();
+        }
+
+        function toggleExplanation(id) {
+            const explanation = document.getElementById(`explanation-${id}`);
+            if (explanation) {
+                explanation.classList.toggle('visible');
+
+                // Update button text
+                const btn = explanation.previousElementSibling.querySelector('.explanation-btn');
+                if (btn) {
+                    btn.textContent = explanation.classList.contains('visible')
+                        ? 'Hide Explanation'
+                        : 'Show Explanation';
+                }
+            }
+        }
+
+        function renderExplanationSteps(steps, problemId) {
+            return steps.map((step, index) => {
+                const lineDisplay = step.line !== null
+                    ? `<span class="step-line">L${step.line}</span>`
+                    : `<span class="step-line no-line">—</span>`;
+
+                const actionClass = step.action ? step.action.replace(/[^a-z-]/g, '') : '';
+                const clickableClass = step.line !== null ? 'clickable' : '';
+                const lineAttr = step.line !== null ? `data-line="${step.line}"` : '';
+
+                // Format state display
+                let stateHtml = '';
+                if (step.state && Object.keys(step.state).length > 0) {
+                    const stateEntries = Object.entries(step.state).map(([k, v]) => {
+                        const displayVal = typeof v === 'string' ? v : JSON.stringify(v);
+                        return `<span class="var-name">${escapeHtml(k)}</span>=<span class="var-value">${escapeHtml(displayVal)}</span>`;
+                    }).join(', ');
+                    stateHtml = `<span class="step-state">${stateEntries}</span>`;
+                }
+
+                // Format output display
+                let outputHtml = '';
+                if (step.output) {
+                    outputHtml = `<span class="step-output">${escapeHtml(step.output)}</span>`;
+                }
+
+                // Format concepts display
+                let conceptsHtml = '';
+                if (step.concepts && step.concepts.length > 0) {
+                    conceptsHtml = `<span class="step-concepts">${step.concepts.map(c =>
+                        `<span class="concept-tag">${escapeHtml(c)}</span>`
+                    ).join('')}</span>`;
+                }
+
+                // Format description with inline code
+                const description = step.description
+                    ? step.description.replace(/`([^`]+)`/g, '<code>$1</code>')
+                    : '';
+
+                return `
+                    <li class="explanation-step ${clickableClass}" data-problem="${problemId}" ${lineAttr} onclick="handleStepClick(this, '${problemId}', ${step.line})">
+                        <div class="step-meta">
+                            ${lineDisplay}
+                            <span class="step-action ${actionClass}">${step.action || ''}</span>
+                        </div>
+                        <div class="step-body">
+                            <div class="step-description">${description}</div>
+                            <div class="step-details">
+                                ${stateHtml}
+                                ${outputHtml}
+                                ${conceptsHtml}
+                            </div>
+                        </div>
+                    </li>
+                `;
+            }).join('');
+        }
+
+        function handleStepClick(stepElement, problemId, lineNum) {
+            // Find the problem item container
+            const allItems = document.querySelectorAll('.problem-item');
+            let targetItem = null;
+            allItems.forEach(item => {
+                if (item.querySelector('.problem-id').textContent === problemId) {
+                    targetItem = item;
+                }
+            });
+
+            if (!targetItem) return;
+
+            // Clear all active steps
+            targetItem.querySelectorAll('.explanation-step.active').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Mark this step as active
+            stepElement.classList.add('active');
+
+            // Highlight the code line
+            highlightCodeLine(problemId, lineNum);
+        }
+
+        function highlightCode(code, problemId) {
+            // Split into lines first, then highlight each line
+            const lines = code.split('\n');
+
+            return lines.map((line, index) => {
+                const lineNum = index + 1;
+                const highlighted = highlightLine(line);
+                return `<span class="code-line" data-line="${lineNum}" data-problem="${problemId}">${highlighted}</span>`;
+            }).join('\n');
+        }
+
+        function highlightLine(line) {
+            const escaped = escapeHtml(line);
+
+            const keywords = new Set(['int', 'void', 'class', 'public', 'private', 'protected', 'virtual',
+                            'override', 'const', 'static', 'new', 'delete', 'return', 'if', 'else',
+                            'for', 'while', 'do', 'switch', 'case', 'break', 'continue', 'default',
+                            'true', 'false', 'nullptr', 'this', 'friend', 'explicit', 'operator',
+                            'using', 'namespace', 'std', 'cout', 'cin', 'endl']);
+
+            const types = new Set(['bool', 'char', 'string', 'size_t', 'auto', 'ostream', 'istream']);
+
+            let result = '';
+            let i = 0;
+
+            while (i < escaped.length) {
+                // Check for comments
+                if (escaped.slice(i, i + 2) === '//') {
+                    result += `<span class="comment">${escaped.slice(i)}</span>`;
+                    break;
+                }
+
+                // Check for strings
+                if (escaped[i] === '"') {
+                    let j = i + 1;
+                    while (j < escaped.length && escaped[j] !== '"') {
+                        if (escaped[j] === '\\') j++;
+                        j++;
+                    }
+                    result += `<span class="string">${escaped.slice(i, j + 1)}</span>`;
+                    i = j + 1;
+                    continue;
+                }
+
+                // Check for words (identifiers/keywords)
+                if (/[a-zA-Z_]/.test(escaped[i])) {
+                    let j = i;
+                    while (j < escaped.length && /[a-zA-Z0-9_]/.test(escaped[j])) j++;
+                    const word = escaped.slice(i, j);
+
+                    if (keywords.has(word)) {
+                        result += `<span class="keyword">${word}</span>`;
+                    } else if (types.has(word)) {
+                        result += `<span class="type">${word}</span>`;
+                    } else {
+                        result += word;
+                    }
+                    i = j;
+                    continue;
+                }
+
+                // Check for numbers
+                if (/[0-9]/.test(escaped[i])) {
+                    let j = i;
+                    while (j < escaped.length && /[0-9.]/.test(escaped[j])) j++;
+                    result += `<span class="number">${escaped.slice(i, j)}</span>`;
+                    i = j;
+                    continue;
+                }
+
+                // Default: just add the character
+                result += escaped[i];
+                i++;
+            }
+
+            return result;
+        }
+
+        function highlightCodeLine(problemId, lineNum) {
+            // Find the problem item
+            const problemItem = document.querySelector(`.problem-item .problem-id`);
+            const allItems = document.querySelectorAll('.problem-item');
+
+            let targetItem = null;
+            allItems.forEach(item => {
+                if (item.querySelector('.problem-id').textContent === problemId) {
+                    targetItem = item;
+                }
+            });
+
+            if (!targetItem) return;
+
+            // Clear all highlighted lines in this problem
+            targetItem.querySelectorAll('.code-line.highlighted').forEach(el => {
+                el.classList.remove('highlighted');
+            });
+
+            // Clear all active steps
+            targetItem.querySelectorAll('.explanation-step.active').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Highlight the specific line if lineNum is valid
+            if (lineNum !== null) {
+                const codeLine = targetItem.querySelector(`.code-line[data-line="${lineNum}"]`);
+                if (codeLine) {
+                    codeLine.classList.add('highlighted');
+                    // Scroll the code line into view if needed
+                    codeLine.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function setupEventListeners() {
+            document.getElementById('back-btn').onclick = showAllCategories;
+
+            document.getElementById('category-filter').onchange = (e) => {
+                const categoryId = e.target.value;
+                if (categoryId) {
+                    showCategory(categoryId);
+                } else {
+                    showAllCategories();
+                }
+            };
+
+            document.getElementById('search').oninput = (e) => {
+                const term = e.target.value;
+                if (term.length > 0) {
+                    document.getElementById('categories-grid').style.display = 'none';
+                    document.getElementById('problems-list').classList.add('visible');
+                    document.getElementById('back-btn').classList.add('visible');
+                    renderProblems(currentCategory, term);
+                } else if (!currentCategory) {
+                    showAllCategories();
+                } else {
+                    renderProblems(currentCategory);
+                }
+            };
+        }
+
+        // Initialize
+        loadDatabase();
+    </script>
+</body>
+</html>
