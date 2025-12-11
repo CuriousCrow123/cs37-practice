@@ -579,10 +579,6 @@
                     <div class="stat-value" id="total-categories">0</div>
                     <div class="stat-label">Categories</div>
                 </div>
-                <div class="stat">
-                    <div class="stat-value" id="completed-count">0</div>
-                    <div class="stat-label">Completed</div>
-                </div>
             </div>
         </header>
 
@@ -628,7 +624,6 @@
         function updateStats() {
             document.getElementById('total-problems').textContent = db.problems.length;
             document.getElementById('total-categories').textContent = db.categories.length;
-            document.getElementById('completed-count').textContent = completed.size;
         }
 
         function renderCategories() {
@@ -723,7 +718,7 @@
                         </div>
                         <div class="answer-section">
                             <div class="buttons-row">
-                                <button class="reveal-btn" onclick="revealAnswer('${problem.id}')">
+                                <button class="reveal-btn" id="reveal-btn-${problem.id}" onclick="toggleAnswer('${problem.id}')">
                                     Show Output
                                 </button>
                                 ${hasExplanation ? `<button class="explanation-btn" onclick="toggleExplanation('${problem.id}')">
@@ -763,17 +758,24 @@
             });
         }
 
-        function revealAnswer(id) {
+        function toggleAnswer(id) {
             const answer = document.getElementById(`answer-${id}`);
-            answer.classList.add('visible');
+            const btn = document.getElementById(`reveal-btn-${id}`);
 
-            // Mark as completed
-            completed.add(id);
-            localStorage.setItem('cs37-completed', JSON.stringify([...completed]));
-            updateStats();
+            answer.classList.toggle('visible');
 
-            // Update progress bars
-            renderCategories();
+            // Update button text
+            if (answer.classList.contains('visible')) {
+                btn.textContent = 'Hide Output';
+
+                // Mark as completed only when showing
+                completed.add(id);
+                localStorage.setItem('cs37-completed', JSON.stringify([...completed]));
+                updateStats();
+                renderCategories();
+            } else {
+                btn.textContent = 'Show Output';
+            }
         }
 
         function toggleExplanation(id) {
